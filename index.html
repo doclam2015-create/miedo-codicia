@@ -301,7 +301,7 @@ nav button.on i{transform:translateY(-2px) scale(1.12)}
 
 <script>
 'use strict';
-const APP_V='3';
+const APP_V='4';
 const $=id=>document.getElementById(id);
 const REDUCIR=matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* Cuenta animada: de lo que muestra el elemento al valor nuevo */
@@ -385,14 +385,14 @@ async function actualizar(forzar){
   render();
 }
 
-/* ── Aguja: al iniciar hace un barrido completo (0 → 100 → valor); después va directo ── */
-let agujaFase=0, agujaFin='';   // 0 sin iniciar · 1 barriendo · 2 libre
+/* ── Aguja: al iniciar parte desde 0 y recorre hasta el valor; después va directo ── */
+let agujaLista=false;
 function moverAguja(v){
-  const n=$('needle'); agujaFin='rotate('+(-90+v*1.8)+'deg)';
-  if(agujaFase===2||REDUCIR){ n.style.transform=agujaFin; agujaFase=2; return; }
-  if(agujaFase===1) return;                       // el barrido en curso terminará en el valor más reciente
-  agujaFase=1;
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{ n.style.transform='rotate(90deg)'; setTimeout(()=>{ n.style.transform=agujaFin; agujaFase=2; },1000); }));
+  const n=$('needle'), fin='rotate('+(-90+v*1.8)+'deg)';
+  if(agujaLista||REDUCIR){ n.style.transform=fin; agujaLista=true; return; }
+  agujaLista=true;
+  n.style.transform='rotate(-90deg)'; n.style.transitionDuration='1.8s';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ n.style.transform=fin; setTimeout(()=>n.style.transitionDuration='',1900); }));   // espera al primer pintado para que la transición se vea
 }
 
 /* ── Render índice ── */
