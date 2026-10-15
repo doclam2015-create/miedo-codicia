@@ -535,5 +535,27 @@ render(); actualizar(false);
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden) actualizar(false); });
 if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
+<!--AYUDA-INTEGRADA-->
+<style>
+#ayi-btn{position:fixed;left:14px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:2147483000;width:38px;height:38px;border-radius:50%;border:0;background:#1f6feb;color:#fff;font:700 19px -apple-system,system-ui,sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.35);cursor:pointer;opacity:.9}
+#ayi-fondo{position:fixed;inset:0;z-index:2147483001;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:14px}
+#ayi-fondo[hidden]{display:none}
+#ayi-caja{background:#fff;color:#1b2430;max-width:640px;width:100%;max-height:calc(100vh - 28px);overflow:auto;-webkit-overflow-scrolling:touch;border-radius:16px;padding:20px 22px;font:15px/1.45 -apple-system,system-ui,sans-serif;text-align:left;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+#ayi-caja h2{margin:0 0 6px;font-size:20px} #ayi-caja h3{margin:14px 0 2px;font-size:15.5px} #ayi-caja p{margin:0;color:#4a5566}
+#ayi-caja table{border-spacing:0 3px} #ayi-caja td{padding-right:14px;vertical-align:top}
+#ayi-cerrar{display:block;margin:16px auto 0;padding:9px 28px;border:0;border-radius:10px;background:#1f6feb;color:#fff;font:600 15px -apple-system,system-ui,sans-serif;cursor:pointer}
+@media (prefers-color-scheme:dark){#ayi-caja{background:#1d232b;color:#e6ebf2} #ayi-caja p{color:#a9b4c2}}
+</style>
+<button id="ayi-btn" type="button" title="Ayuda (tecla ?)" aria-label="Ayuda">?</button>
+<div id="ayi-fondo" hidden role="dialog" aria-label="Ayuda"><div id="ayi-caja">
+<h2>Ayuda: Índice de miedo y codicia · Bitcoin</h2><p>Muestra el índice de miedo y codicia del mercado cripto junto al precio de Bitcoin.</p><h3>Índice</h3><p>El valor de hoy de 0 (miedo extremo) a 100 (codicia extrema) y el precio de Bitcoin. «¿Qué es esto?» explica cómo se interpreta.</p><h3>Histórico</h3><p>Gráfico del índice y del precio en 15, 30 y 90 días, 6 meses, 1 y 2 años o todo; puede verse en barras o área y compartirse.</p><h3>Ajustes</h3><p><b>Actualizar datos ahora</b> descarga lo último; también lista las fuentes de los datos.</p><h3>Aviso</h3><p>Es información, no una recomendación de inversión.</p>
+<button id="ayi-cerrar" type="button">Cerrar</button></div></div>
+<script>(function(){var f=document.getElementById('ayi-fondo');function a(){f.hidden=false}function c(){f.hidden=true}
+document.getElementById('ayi-btn').onclick=a;document.getElementById('ayi-cerrar').onclick=c;
+f.addEventListener('click',function(e){if(e.target===f)c()});
+document.addEventListener('keydown',function(e){var g=(document.activeElement||{}).tagName||'';
+if(e.key==='Escape'&&!f.hidden)c();else if(e.key==='?'&&!/INPUT|TEXTAREA|SELECT/.test(g)&&!(document.activeElement||{}).isContentEditable)a()});
+window.abrirAyuda=a;})();</script>
+<!--/AYUDA-INTEGRADA-->
 </body>
 </html>
